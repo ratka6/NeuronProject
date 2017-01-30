@@ -14,6 +14,8 @@ import java.util.List;
 public class ParseCSV {
     private CSVParser parser;
     private File csvData;
+    public double[] max;
+    public double[] min;
 
     private List<VectorWithNote> vectorsList;
 
@@ -79,6 +81,9 @@ public class ParseCSV {
                 }
             }
         }
+
+        this.max = max;
+        this.min = min;
 
         for (VectorWithNote v: vectorsList) {
             for (int i = 0; i < 4; i++) {

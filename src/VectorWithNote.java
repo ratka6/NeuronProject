@@ -19,6 +19,6 @@ public class VectorWithNote extends ArrayRealVector {
 
     @Override
     public String toString() {
-        return super.toString() + ", note = " + note;
+        return super.toString() + ", wartosc referencyja = " + note;
     }
 }

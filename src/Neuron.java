@@ -17,11 +17,13 @@ public class Neuron {
     private List<VectorWithNote> learningList;
     private List<VectorWithNote> testingList;
     private List<Double> errors;
+    private ArrayRealVector teta;
+    private ParseCSV c;
 
-    NormalDistribution distr;
+    private NormalDistribution distr;
 
     public Neuron() {
-        ParseCSV c = new ParseCSV();
+        c = new ParseCSV();
         learningList = new ArrayList<>();
         testingList = new ArrayList<>();
         distr = new NormalDistribution();
@@ -33,9 +35,9 @@ public class Neuron {
         learn(100, 0.01);
         learn(100, 0.001);
         learn(100, 0.0001);
-        learn(500, 0.01);
         learn(500, 0.001);
         learn(500, 0.0001);
+        learn(500, 0.001);
     }
 
     private void divide(List<VectorWithNote> list) {
@@ -69,10 +71,11 @@ public class Neuron {
             }
             calculateError(v);
         }
+        teta = v;
         StringBuilder sb = new StringBuilder((String.format("%.4f", alfa)));
         sb.deleteCharAt(0);
         sb.deleteCharAt(0);
-        saveToFile("Alfa" + sb.toString() + "Epoki" + iterations, v);
+        //saveToFile("Alfa" + sb.toString() + "Epoki" + iterations, v);
     }
 
     private void calculateError(ArrayRealVector vector) {
@@ -110,8 +113,25 @@ public class Neuron {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 
+
+    public void classify(VectorWithNote v) {
+        double[] max = c.max;
+        double[] min = c.min;
+
+        System.out.println("Osoba o parametrach " + v.toString());
+
+
+        for (int i = 0; i < 4; i++) {
+            double k = (v.getEntry(i) - min[i]) / (max[i] - min[i]);
+            v.setEntry(i, k);
+        }
+
+        double t = v.dotProduct(teta);
+        double w = function(t);
+
+        System.out.println(" zostala sklasyfikowana jako: " + w);
+    }
 
 }
