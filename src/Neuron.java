@@ -32,12 +32,7 @@ public class Neuron {
 
     public void start() {
         errors = new ArrayList<>();
-        learn(100, 0.01);
-        learn(100, 0.001);
-        learn(100, 0.0001);
-        learn(500, 0.001);
-        learn(500, 0.0001);
-        learn(500, 0.001);
+        learn(10000, 0.01);
     }
 
     private void divide(List<VectorWithNote> list) {
@@ -75,7 +70,7 @@ public class Neuron {
         StringBuilder sb = new StringBuilder((String.format("%.4f", alfa)));
         sb.deleteCharAt(0);
         sb.deleteCharAt(0);
-        //saveToFile("Alfa" + sb.toString() + "Epoki" + iterations, v);
+        saveToFile("Alfa" + sb.toString() + "Epoki" + iterations, v);
     }
 
     private void calculateError(ArrayRealVector vector) {
@@ -120,6 +115,10 @@ public class Neuron {
         double[] max = c.max;
         double[] min = c.min;
 
+        double[] vec = teta.toArray();
+        double[] j = {vec[0], vec[1], vec[2], vec[3]};
+        ArrayRealVector vi = new ArrayRealVector(j);
+
         System.out.println("Osoba o parametrach " + v.toString());
 
 
@@ -128,7 +127,7 @@ public class Neuron {
             v.setEntry(i, k);
         }
 
-        double t = v.dotProduct(teta);
+        double t = v.dotProduct(vi);
         double w = function(t);
 
         System.out.println(" zostala sklasyfikowana jako: " + w);
